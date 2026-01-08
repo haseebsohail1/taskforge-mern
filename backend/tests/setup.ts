@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-let mongo: MongoMemoryServer;
+let mongo: MongoMemoryServer | undefined;
+
+jest.setTimeout(20000);
 
 beforeAll(async () => {
   const externalUri = process.env.MONGO_URI_TEST;

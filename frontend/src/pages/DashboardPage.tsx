@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { fetchTasks, updateTask } from '../services/tasks';
 import { fetchTeams } from '../services/teams';
 import { api } from '../services/api';
-import { Task, Team } from '../types';
+import { Task, Team, TaskStatus } from '../types';
 
 const DashboardPage = () => {
   const { user } = useAuth();
