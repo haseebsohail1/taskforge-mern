@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import TaskCard from '../components/TaskCard';
 import TaskForm from '../components/TaskForm';
 import { useAuth } from '../context/AuthContext';
 import { createTask, deleteTask, fetchTasks, updateTask } from '../services/tasks';
@@ -25,7 +24,7 @@ const TasksPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const [taskData, teamData] = await Promise.all([fetchTasks(filters), fetchTeams()]);
@@ -36,11 +35,11 @@ const TasksPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   const handleSubmit = async (payload: {
     title: string;
@@ -84,11 +83,7 @@ const TasksPage = () => {
   const assignedTasks = tasks.filter((task) => task.assignedTo?._id === user?.id);
 
   const assigneeOptions = Array.from(
-    new Map(
-      teams
-        .flatMap((team) => team.members)
-        .map((member) => [member._id, member])
-    ).values()
+    new Map(teams.flatMap((team) => team.members).map((member) => [member._id, member])).values()
   );
 
   return (
@@ -282,7 +277,9 @@ const TasksPage = () => {
                 </div>
                 <div>
                   <p className="muted">Team</p>
-                  <p>{typeof selected.teamId === 'string' ? selected.teamId : selected.teamId.name}</p>
+                  <p>
+                    {typeof selected.teamId === 'string' ? selected.teamId : selected.teamId.name}
+                  </p>
                 </div>
                 <div>
                   <p className="muted">Due Date</p>

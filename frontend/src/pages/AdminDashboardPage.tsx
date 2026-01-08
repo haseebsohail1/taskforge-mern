@@ -9,7 +9,9 @@ import { Team } from '../types';
 const AdminDashboardPage = () => {
   const { user } = useAuth();
   const [teams, setTeams] = useState<Team[]>([]);
-  const [users, setUsers] = useState<Array<{ _id: string; name: string; email: string; role: string }>>([]);
+  const [users, setUsers] = useState<
+    Array<{ _id: string; name: string; email: string; role: string }>
+  >([]);
   const [userSearch, setUserSearch] = useState('');
   const [newUser, setNewUser] = useState({
     name: '',
@@ -92,6 +94,12 @@ const AdminDashboardPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 2500);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
   if (!user || user.role !== 'admin') {
     return (
       <div className="page">
@@ -99,12 +107,6 @@ const AdminDashboardPage = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(null), 2500);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
 
   return (
     <div className="page">
@@ -119,17 +121,17 @@ const AdminDashboardPage = () => {
       {toast && <div className={`toast ${toast.type}`}>{toast.message}</div>}
 
       <div className="card">
-          <div className="list">
-            <div className="card-actions">
-              <button className="btn" type="button" onClick={() => setShowUserForm(true)}>
-                Add User
-              </button>
-            </div>
-            <div className="inline-input">
-              <input
-                value={userSearch}
-                onChange={(e) => setUserSearch(e.target.value)}
-                placeholder="Search by name or email"
+        <div className="list">
+          <div className="card-actions">
+            <button className="btn" type="button" onClick={() => setShowUserForm(true)}>
+              Add User
+            </button>
+          </div>
+          <div className="inline-input">
+            <input
+              value={userSearch}
+              onChange={(e) => setUserSearch(e.target.value)}
+              placeholder="Search by name or email"
             />
             <button className="btn secondary" type="button" onClick={handleUserSearch}>
               Search
@@ -157,37 +159,37 @@ const AdminDashboardPage = () => {
             {users
               .filter((userItem) => userItem._id !== user.id)
               .map((userItem) => (
-              <div className="table-row" key={userItem._id}>
-                <span>{userItem.name}</span>
-                <span>{userItem.email}</span>
-                <span>
-                  <select
-                    value={userItem.role}
-                    disabled={userItem._id === user.id}
-                    onChange={(e) =>
-                      handleRoleChange(
-                        userItem._id,
-                        e.target.value as 'member' | 'lead' | 'admin'
-                      )
-                    }
-                  >
-                    <option value="member">Member</option>
-                    <option value="lead">Lead</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </span>
-                <span>
-                  <button
-                    className="btn secondary"
-                    type="button"
-                    disabled={userItem._id === user.id}
-                    onClick={() => handleAddToTeam(userItem._id)}
-                  >
-                    Add to Team
-                  </button>
-                </span>
-              </div>
-            ))}
+                <div className="table-row" key={userItem._id}>
+                  <span>{userItem.name}</span>
+                  <span>{userItem.email}</span>
+                  <span>
+                    <select
+                      value={userItem.role}
+                      disabled={userItem._id === user.id}
+                      onChange={(e) =>
+                        handleRoleChange(
+                          userItem._id,
+                          e.target.value as 'member' | 'lead' | 'admin'
+                        )
+                      }
+                    >
+                      <option value="member">Member</option>
+                      <option value="lead">Lead</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </span>
+                  <span>
+                    <button
+                      className="btn secondary"
+                      type="button"
+                      disabled={userItem._id === user.id}
+                      onClick={() => handleAddToTeam(userItem._id)}
+                    >
+                      Add to Team
+                    </button>
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -242,7 +244,11 @@ const AdminDashboardPage = () => {
                   <button className="btn" type="button" onClick={handleCreateUser}>
                     Create User
                   </button>
-                  <button className="btn secondary" type="button" onClick={() => setShowUserForm(false)}>
+                  <button
+                    className="btn secondary"
+                    type="button"
+                    onClick={() => setShowUserForm(false)}
+                  >
                     Cancel
                   </button>
                 </div>

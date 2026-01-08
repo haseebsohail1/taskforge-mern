@@ -13,9 +13,7 @@ interface TaskCardProps {
 const TaskCard = ({ task, onEdit, onDelete, showActions = true, teamName }: TaskCardProps) => {
   const resolvedTeamName =
     teamName ??
-    (typeof task.teamId === 'string'
-      ? task.teamId
-      : task.teamId?.name ?? 'Unknown team');
+    (typeof task.teamId === 'string' ? task.teamId : (task.teamId?.name ?? 'Unknown team'));
 
   return (
     <div className="card task-card">
@@ -28,7 +26,9 @@ const TaskCard = ({ task, onEdit, onDelete, showActions = true, teamName }: Task
         <span>Priority: {task.priority}</span>
         <span>Team: {resolvedTeamName}</span>
         <span>Assignee: {task.assignedTo?.name ?? 'Unassigned'}</span>
-        <span>Due: {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date'}</span>
+        <span>
+          Due: {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date'}
+        </span>
       </div>
       {showActions && onEdit && onDelete && (
         <div className="card-actions">

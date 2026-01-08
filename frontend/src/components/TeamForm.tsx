@@ -4,7 +4,6 @@ interface TeamFormProps {
   onSubmit: (payload: { name: string; description?: string }) => Promise<void>;
   initial?: { name: string; description?: string } | null;
   onCancel?: () => void;
-  creatorName?: string;
   memberOptions?: Array<{ _id: string; name: string; email: string }>;
   selectedMemberIds?: string[];
   onMembersChange?: (ids: string[]) => void;
@@ -14,7 +13,6 @@ const TeamForm = ({
   onSubmit,
   initial,
   onCancel,
-  creatorName,
   memberOptions = [],
   selectedMemberIds = [],
   onMembersChange,
@@ -89,7 +87,9 @@ const TeamForm = ({
                     <button
                       className="btn secondary"
                       type="button"
-                      onClick={() => onMembersChange(selectedMemberIds.filter((item) => item !== id))}
+                      onClick={() =>
+                        onMembersChange(selectedMemberIds.filter((item) => item !== id))
+                      }
                     >
                       Remove
                     </button>

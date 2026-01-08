@@ -25,7 +25,10 @@ const App = () => {
 
   React.useEffect(() => {
     const handler = (event: Event) => {
-      const detail = (event as CustomEvent).detail as { message: string; type: 'success' | 'error' };
+      const detail = (event as CustomEvent).detail as {
+        message: string;
+        type: 'success' | 'error';
+      };
       setGlobalToast(detail);
       window.setTimeout(() => setGlobalToast(null), 3000);
     };

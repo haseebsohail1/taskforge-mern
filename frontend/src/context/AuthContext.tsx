@@ -52,23 +52,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     refresh();
   }, [refresh]);
 
-  const login = async (email: string, password: string) => {
-    const res = await api.post('/api/auth/login', { email, password });
-    setSession(res.data.data.token, res.data.data.user);
-  };
+  const login = useCallback(
+    async (email: string, password: string) => {
+      const res = await api.post('/api/auth/login', { email, password });
+      setSession(res.data.data.token, res.data.data.user);
+    },
+    [setSession]
+  );
 
-  const signup = async (name: string, email: string, password: string) => {
-    const res = await api.post('/api/auth/signup', { name, email, password });
-    setSession(res.data.data.token, res.data.data.user);
-  };
+  const signup = useCallback(
+    async (name: string, email: string, password: string) => {
+      const res = await api.post('/api/auth/signup', { name, email, password });
+      setSession(res.data.data.token, res.data.data.user);
+    },
+    [setSession]
+  );
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await api.post('/api/auth/logout');
     } finally {
       setSession(null, null);
     }
-  };
+  }, [setSession]);
 
   const value = useMemo(
     () => ({ user, token, loading, login, signup, logout, refresh }),

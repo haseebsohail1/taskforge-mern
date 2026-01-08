@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import TeamForm from '../components/TeamForm';
 import { useAuth } from '../context/AuthContext';
@@ -17,11 +17,10 @@ const TeamsPage = () => {
   const [memberOptions, setMemberOptions] = useState<
     Array<{ _id: string; name: string; email: string; role: string }>
   >([]);
-  const [memberToAdd, setMemberToAdd] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchTeams();
@@ -37,7 +36,10 @@ const TeamsPage = () => {
         ]);
         setMemberOptions([...members, ...leads]);
       } else if (user?.role === 'lead') {
-        const memberMap = new Map<string, { _id: string; name: string; email: string; role: string }>();
+        const memberMap = new Map<
+          string,
+          { _id: string; name: string; email: string; role: string }
+        >();
         data.forEach((team) => {
           team.members.forEach((member) => {
             memberMap.set(member._id, member);
@@ -50,11 +52,11 @@ const TeamsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selected, user?.role]);
 
   useEffect(() => {
     load();
-  }, [user?.role]);
+  }, [load]);
 
   const handleSaveTeam = async (payload: { name: string; description?: string }) => {
     try {
@@ -78,16 +80,6 @@ const TeamsPage = () => {
       await load();
     } catch {
       setError('Failed to save team');
-    }
-  };
-
-  const handleAddMember = async (userId: string) => {
-    if (!selected) return;
-    try {
-      await addTeamMember(selected._id, userId);
-      await load();
-    } catch {
-      setError('Failed to add member');
     }
   };
 
@@ -178,7 +170,6 @@ const TeamsPage = () => {
                 setShowForm(false);
                 setSelectedMemberIds([]);
               }}
-              creatorName={user?.name}
               memberOptions={memberOptions.filter((member) => member._id !== user?.id)}
               selectedMemberIds={selectedMemberIds}
               onMembersChange={setSelectedMemberIds}
@@ -213,9 +204,7 @@ const TeamsPage = () => {
                 <div>
                   <p className="muted">Created At</p>
                   <p>
-                    {selected.createdAt
-                      ? new Date(selected.createdAt).toLocaleString()
-                      : 'Unknown'}
+                    {selected.createdAt ? new Date(selected.createdAt).toLocaleString() : 'Unknown'}
                   </p>
                 </div>
               </div>

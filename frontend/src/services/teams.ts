@@ -15,7 +15,10 @@ export const createTeam = async (payload: {
   return res.data.data.team as Team;
 };
 
-export const updateTeam = async (teamId: string, payload: { name?: string; description?: string }) => {
+export const updateTeam = async (
+  teamId: string,
+  payload: { name?: string; description?: string }
+) => {
   const res = await api.put(`/api/teams/${teamId}`, payload);
   return res.data.data.team as Team;
 };

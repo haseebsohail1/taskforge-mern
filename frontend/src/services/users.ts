@@ -26,10 +26,7 @@ export const createUser = async (payload: {
   return res.data.data.user as { _id: string; name: string; email: string; role: string };
 };
 
-export const changePassword = async (payload: {
-  currentPassword: string;
-  newPassword: string;
-}) => {
+export const changePassword = async (payload: { currentPassword: string; newPassword: string }) => {
   const res = await api.put('/api/users/me/password', payload);
   return res.data.data as { message: string };
 };

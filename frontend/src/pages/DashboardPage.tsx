@@ -169,8 +169,8 @@ const DashboardPage = () => {
                 showActions={false}
                 teamName={
                   typeof task.teamId === 'string'
-                    ? teamMap.get(task.teamId) ?? 'Unknown team'
-                    : task.teamId?.name ?? 'Unknown team'
+                    ? (teamMap.get(task.teamId) ?? 'Unknown team')
+                    : (task.teamId?.name ?? 'Unknown team')
                 }
               />
             ))}
@@ -199,8 +199,8 @@ const DashboardPage = () => {
                         <span>
                           Team:{' '}
                           {typeof task.teamId === 'string'
-                            ? teamMap.get(task.teamId) ?? 'Unknown team'
-                            : task.teamId?.name ?? 'Unknown team'}
+                            ? (teamMap.get(task.teamId) ?? 'Unknown team')
+                            : (task.teamId?.name ?? 'Unknown team')}
                         </span>
                         <span>Priority: {task.priority}</span>
                         <span>
@@ -255,8 +255,8 @@ const DashboardPage = () => {
                   showActions={false}
                   teamName={
                     typeof task.teamId === 'string'
-                      ? teamMap.get(task.teamId) ?? 'Unknown team'
-                      : task.teamId?.name ?? 'Unknown team'
+                      ? (teamMap.get(task.teamId) ?? 'Unknown team')
+                      : (task.teamId?.name ?? 'Unknown team')
                   }
                 />
               ))}
@@ -273,8 +273,8 @@ const DashboardPage = () => {
                   showActions={false}
                   teamName={
                     typeof task.teamId === 'string'
-                      ? teamMap.get(task.teamId) ?? 'Unknown team'
-                      : task.teamId?.name ?? 'Unknown team'
+                      ? (teamMap.get(task.teamId) ?? 'Unknown team')
+                      : (task.teamId?.name ?? 'Unknown team')
                   }
                 />
               ))}
