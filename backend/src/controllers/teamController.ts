@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Team } from '../models/Team';
 import { User } from '../models/User';
 import { asyncHandler } from '../utils/asyncHandler';
-import { ForbiddenError, NotFoundError, UnauthorizedError } from '../utils/errors';
+import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError } from '../utils/errors';
 import { validateObjectId } from '../utils/validateObjectId';
 
 export const getTeams = asyncHandler(async (req: Request, res: Response) => {

@@ -19,10 +19,11 @@ export const searchUserByEmail = asyncHandler(async (req: Request, res: Response
 
   const user = await User.findOne({ email }).select('name email role');
   if (!user) {
-    return res.json({ success: true, data: { user: null } });
+    res.json({ success: true, data: { user: null } });
+    return;
   }
 
-  return res.json({ success: true, data: { user } });
+  res.json({ success: true, data: { user } });
 });
 
 export const listUsers = asyncHandler(async (req: Request, res: Response) => {
@@ -57,7 +58,7 @@ export const listUsers = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const users = await User.find(query).select('name email role').limit(limit);
-  return res.json({ success: true, data: { items: users } });
+  res.json({ success: true, data: { items: users } });
 });
 
 export const updateUserRole = asyncHandler(async (req: Request, res: Response) => {
@@ -82,7 +83,7 @@ export const updateUserRole = asyncHandler(async (req: Request, res: Response) =
     throw new BadRequestError('User not found');
   }
 
-  return res.json({ success: true, data: { user } });
+  res.json({ success: true, data: { user } });
 });
 
 export const createUser = asyncHandler(async (req: Request, res: Response) => {
@@ -107,7 +108,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
 
   const user = await User.create({ name, email, password, role });
 
-  return res.status(201).json({
+  res.status(201).json({
     success: true,
     data: { user: { _id: user._id, name: user.name, email: user.email, role: user.role } },
   });
@@ -136,5 +137,5 @@ export const changePassword = asyncHandler(async (req: Request, res: Response) =
   user.password = newPassword;
   await user.save();
 
-  return res.json({ success: true, data: { message: 'Password updated' } });
+  res.json({ success: true, data: { message: 'Password updated' } });
 });

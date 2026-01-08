@@ -134,6 +134,7 @@ Backend tests (Jest + Supertest + mongodb-memory-server):
 cd backend
 npm test
 ```
+If `mongodb-memory-server` cannot bind ports in your environment, set `MONGO_URI_TEST` to a local MongoDB test database before running tests.
 
 ## Commit Guidance
 - Use small, focused commits

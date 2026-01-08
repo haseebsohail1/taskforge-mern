@@ -9,7 +9,7 @@
     "build": "tsc",
     "seed:admin": "ts-node-dev --transpile-only src/scripts/seedAdmin.ts",
     "start": "node dist/server.js",
-    "test": "jest --runInBand",
+    "test": "JEST_NO_WATCHMAN=1 WATCHMAN_DISABLE=1 JEST_DISABLE_WATCHMAN=1 jest --runInBand",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
   },

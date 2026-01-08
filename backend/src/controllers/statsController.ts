@@ -18,10 +18,11 @@ export const getStats = asyncHandler(async (req: Request, res: Response) => {
 
   if (!isAdmin && teamIds.length === 0) {
     const totalUsers = req.user.role === 'admin' ? await User.countDocuments() : undefined;
-    return res.json({
+    res.json({
       success: true,
       data: { total: 0, totalUsers, byStatus: {}, byPriority: {}, byTeam: [] },
     });
+    return;
   }
 
   const matchStage = isAdmin ? {} : { teamId: { $in: teamIds } };
@@ -57,7 +58,7 @@ export const getStats = asyncHandler(async (req: Request, res: Response) => {
   const total = result.total?.[0]?.count ?? 0;
   const totalUsers = req.user.role === 'admin' ? await User.countDocuments() : undefined;
 
-  return res.json({
+  res.json({
     success: true,
     data: {
       total,

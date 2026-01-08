@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 
-import { User } from '../models/User';
+import { IUser, User } from '../models/User';
 import { asyncHandler } from '../utils/asyncHandler';
 import { BadRequestError, UnauthorizedError } from '../utils/errors';
 import { signToken } from '../utils/jwt';
 
-const safeUser = (user: { _id: string; name: string; email: string; role: string }) => ({
-  id: user._id,
+const safeUser = (user: IUser) => ({
+  id: user._id.toString(),
   name: user.name,
   email: user.email,
   role: user.role,
